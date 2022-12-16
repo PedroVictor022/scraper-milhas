@@ -1,4 +1,3 @@
-const e = require('express');
 const pup = require('puppeteer');
 
 const getMilhasDetails = async () => {
@@ -29,20 +28,44 @@ const getMilhasDetails = async () => {
       value: dateAtUpdate
     });
 
-    /**
-     * TODO 
-     * 1 - Fazer verificacao se a string retornada tem R$
-     * 2 - Se tiver adiciona no array
-     * 3 - Pensar em logica pra filtrar
-     */
-
     const tableValues = await page.$$eval('#tabela-cotacao > tbody > tr > td:nth-child(2)', el => el.map((content) => {
       if (content.innerText.includes('R$')) {
         return content.innerText;
       }
     }))
 
-    const qtdValues = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(1) > td', el => el.map((content) => {
+    // Return qtd miles
+    const qtdValues1 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(1) > td', el => el.map((content) => {
+      if (content.innerText) {
+        return content.innerText;
+      }
+    }));
+    const qtdValues2 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(7) > td', el => el.map((content) => {
+      if (content.innerText) {
+        return content.innerText;
+      }
+    }))
+    const qtdValues3 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(14) > td', el => el.map((content) => {
+      if (content.innerText) {
+        return content.innerText;
+      }
+    }))
+    const qtdValues4 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(20) > td', el => el.map((content) => {
+      if (content.innerText) {
+        return content.innerText;
+      }
+    }))
+    const qtdValues5 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(27) > td', el => el.map((content) => {
+      if (content.innerText) {
+        return content.innerText;
+      }
+    }))
+    const qtdValues6 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(33) > td', el => el.map((content) => {
+      if (content.innerText) {
+        return content.innerText;
+      }
+    }))
+    const qtdValues7 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(39) > td', el => el.map((content) => {
       if (content.innerText) {
         return content.innerText;
       }
@@ -55,12 +78,26 @@ const getMilhasDetails = async () => {
       },
       {
         label: 'Quantidade de milhas',
-        value: qtdValues
+        smiles: {
+          label: 'Smiles',
+          value1: qtdValues1, qtdValues2,
+        },
+        latamPass: {
+          label: 'Latam Pass',
+          value1: qtdValues3,
+          value2: qtdValues4
+        },
+        tudoAzul: {
+          label: 'Tudo Azul',
+          value1: qtdValues5,
+          value2: qtdValues6,
+          value3: qtdValues7
+        }
       }
     );
 
 
-
+    console.log(_htmlInfo);
     return {
       _htmlInfo
     }
