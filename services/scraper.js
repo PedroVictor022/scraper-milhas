@@ -5,8 +5,6 @@ const getMilhasDetails = async () => {
   try {
 
     let _htmlInfo = [];
-    let _htmlValue = [];
-    let row = {};
 
     const browser = await pup.launch({
       headless: true,
@@ -20,11 +18,13 @@ const getMilhasDetails = async () => {
     await page.waitForSelector("#tabela-cotacao");
 
     const tableMilhas = await page.$$eval('#tabela-cotacao > tbody', el => el.map((content) => content.innerText))
-    _htmlInfo.push(tableMilhas)
+    _htmlInfo.push({
+      allHTMLInfos: tableMilhas
+    })
 
     const dateAtUpdate = await page.$$eval('body > div:nth-child(15) > div > div > div.col-md-8.col-sm-12 > div:nth-child(1) > div > div.col > p.mb-0.mt-4', el => el.map((content) => content.textContent));
 
-    _htmlValue.push({
+    _htmlInfo.push({
       label: 'Updated',
       value: dateAtUpdate
     });
@@ -37,19 +37,32 @@ const getMilhasDetails = async () => {
      */
 
     const tableValues = await page.$$eval('#tabela-cotacao > tbody > tr > td:nth-child(2)', el => el.map((content) => {
-      if(content.innerText.includes('R$')) {
+      if (content.innerText.includes('R$')) {
         return content.innerText;
       }
     }))
-    _htmlValue.push({
-      label: 'Milha values',
-      value: tableValues
-    })
+
+    const qtdValues = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(1) > td', el => el.map((content) => {
+      if (content.innerText) {
+        return content.innerText;
+      }
+    }))
+
+    _htmlInfo.push(
+      {
+        label: 'Milha values',
+        value: tableValues
+      },
+      {
+        label: 'Quantidade de milhas',
+        value: qtdValues
+      }
+    );
 
 
 
     return {
-      _htmlValue
+      _htmlInfo
     }
   } catch (err) {
     return `OOPS: ${err}`;
