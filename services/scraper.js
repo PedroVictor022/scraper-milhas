@@ -21,14 +21,14 @@ const getMilhasDetails = async () => {
       allHTMLInfos: tableMilhas
     })
 
-    const dateAtUpdate = await page.$$eval('body > div:nth-child(15) > div > div > div.col-md-8.col-sm-12 > div:nth-child(1) > div > div.col > p.mb-0.mt-4', el => el.map((content) => content.textContent));
+    const dateAtUpdate = await page.$$eval('body > div:nth-child(15) > div > div > div.col-md-8.col-sm-12 > div:nth-child(1) > div > div.col > p.mb-0.mt-4', el => el.map((content) => content.textContent))
 
     _htmlInfo.push({
       label: 'Updated',
       value: dateAtUpdate
     });
 
-    const tableValues = await page.$$eval('#tabela-cotacao > tbody > tr > td:nth-child(2)', el => el.map((content) => {
+    const tableValues = await page.$$eval('#tabela-cotacao > tbody > tr > td:nth-child(2)', el => el.filter((content) => {
       if (content.innerText.includes('R$')) {
         return content.innerText;
       }
@@ -80,7 +80,8 @@ const getMilhasDetails = async () => {
         label: 'Quantidade de milhas',
         smiles: {
           label: 'Smiles',
-          value1: qtdValues1, qtdValues2,
+          value1: qtdValues1,
+          value2: qtdValues2
         },
         latamPass: {
           label: 'Latam Pass',
@@ -105,5 +106,4 @@ const getMilhasDetails = async () => {
     return `OOPS: ${err}`;
   };
 };
-
 module.exports = getMilhasDetails;
