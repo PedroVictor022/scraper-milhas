@@ -1,11 +1,12 @@
-const pup = require('puppeteer');
+// const pup = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 const getMilhasDetails = async () => {
   try {
 
     let _htmlInfo = [];
 
-    const browser = await pup.launch({
+    const browser = await puppeteer.launch({
       headless: true,
     });
 
