@@ -28,11 +28,34 @@ const getMilhasDetails = async () => {
       value: dateAtUpdate
     });
 
-    const tableValues = await page.$$eval('#tabela-cotacao > tbody > tr > td:nth-child(2)', el => el.filter((content) => {
+    const tableValues = await page.$$eval('#tabela-cotacao > tbody > tr > td:nth-child(2)', el => el.map((content) => {
       if (content.innerText.includes('R$')) {
         return content.innerText;
       }
-    }))
+    }));
+
+    // Return values miles
+    const valueMiles1 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(4) > td:nth-child(2)', el => el.map((content) => {
+      return content.innerText;
+    }));
+    const valueMiles2 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(10) > td:nth-child(2)', el => el.map((content) => {
+      return content.innerText;
+    }));
+    const valueMiles3 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(17) > td:nth-child(2)', el => el.map((content) => {
+      return content.innerText;
+    }));
+    const valueMiles4 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(23) > td:nth-child(2)', el => el.map((content) => {
+      return content.innerText;
+    }));
+    const valueMiles5 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(30) > td:nth-child(2)', el => el.map((content) => {
+      return content.innerText;
+    }));
+    const valueMiles6 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(36) > td:nth-child(2)', el => el.map((content) => {
+      return content.innerText;
+    }));
+    const valueMiles7 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(42) > td:nth-child(2)', el => el.map((content) => {
+      return content.innerText;
+    }));
 
     // Return qtd miles
     const qtdValues1 = await page.$$eval('#tabela-cotacao > tbody > tr:nth-child(1) > td', el => el.map((content) => {
@@ -80,19 +103,26 @@ const getMilhasDetails = async () => {
         label: 'Quantidade de milhas',
         smiles: {
           label: 'Smiles',
-          value1: qtdValues1,
-          value2: qtdValues2
+          qtd1: qtdValues1,
+          qtd2: qtdValues2,
+          value1: valueMiles1,
+          value2: valueMiles2
         },
         latamPass: {
           label: 'Latam Pass',
-          value1: qtdValues3,
-          value2: qtdValues4
+          qtd1: qtdValues3,
+          qtd2: qtdValues4,
+          value1: valueMiles3,
+          value2: valueMiles4
         },
         tudoAzul: {
           label: 'Tudo Azul',
-          value1: qtdValues5,
-          value2: qtdValues6,
-          value3: qtdValues7
+          qtd1: qtdValues5,
+          qtd2: qtdValues6,
+          qtd3: qtdValues7,
+          value1: valueMiles5,
+          value2: valueMiles6,
+          value3: valueMiles7
         }
       }
     );
